@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace FS3
 
             if (decodedMessage.Count >= 9)
             {
-                return GameResult(WinnerDeterminator.FindWinner(decodedMessage));
+                return GameResult(Maybe<Dictionary<string, Dictionary<string, string>>>.Bind(decodedMessage).FMap(WinnerDeterminator.FindWinner));
             }
 
             Task<MarkType> winnerFinderTask = Task.Factory.StartNew(() => WinnerDeterminator.FindWinner(decodedMessage));
@@ -25,9 +26,9 @@ namespace FS3
 
             winnerFinderTask.Wait();
 
-            var winner = winnerFinderTask.Result;
+            var winner = Maybe<MarkType>.Bind(winnerFinderTask.Result);
 
-            if (winner != MarkType.Nothing)
+            if (!winner.ToString().Equals("Nothing"))
             {
                 return GameResult(winner);
             }
@@ -36,9 +37,10 @@ namespace FS3
 
             Task postNewMessageTask = Task.Factory.StartNew(() => GameHttpClient.Post(gameId, newMessage));
 
-            var newWinner = WinnerDeterminator.FindWinner(MessageDecoder.Execute(newMessage));
+            var newWinner =
+                Maybe<string>.Bind(newMessage).FMap(MessageDecoder.Execute).FMap(WinnerDeterminator.FindWinner);
 
-            if (newWinner != MarkType.Nothing)
+            if (!newWinner.ToString().Equals("Nothing"))
             {
                 return GameResult(newWinner);
             }
@@ -48,15 +50,15 @@ namespace FS3
             return Play(gameId);
         }
 
-        private static string GameResult(MarkType mark)
+        private static string GameResult(Maybe<MarkType> mark)
         {
-            switch (mark)
+            switch (mark.ToString())
             {
-                case MarkType.Nothing:
+                case "Nothing":
                     return "Draw";
-                case MarkType.O:
+                case "Just O":
                     return "You won";
-                case MarkType.X:
+                case "Just X":
                     return "You lost";
             }
 

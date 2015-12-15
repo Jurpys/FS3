@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FS3.Types;
 
 namespace FS3
 {
@@ -88,13 +89,13 @@ namespace FS3
             }
         }
 
-        public static List<Tuple<int, int>> DecodeToCoordinates(Dictionary<string, Dictionary<string, string>> externalDictionary)
+        public static List<Move> DecodeToCoordinates(Dictionary<string, Dictionary<string, string>> externalDictionary)
         {
-            return DecodeMoves(new List<Tuple<int, int>>(), externalDictionary);
+            return DecodeMoves(new List<Move>(), externalDictionary);
         }
 
-        private static List<Tuple<int, int>> DecodeMoves(
-            List<Tuple<int, int>> movesList,
+        private static List<Move> DecodeMoves(
+            List<Move> movesList,
             Dictionary<string, Dictionary<string, string>> externalDictionary)
         {
             if (externalDictionary.Count == 0)
@@ -105,7 +106,7 @@ namespace FS3
             var x = int.Parse(poppedDictionary.Value["x"]);
             var y = int.Parse(poppedDictionary.Value["y"]);
 
-            movesList.Add(new Tuple<int, int>(x, y));
+            movesList.Add(new Move(x, y));
             var filteredDictionary =
                 externalDictionary.Where(o => o.Key != poppedDictionary.Key).ToDictionary(v => v.Key, v => v.Value);
 

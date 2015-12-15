@@ -47,6 +47,7 @@
     <Compile Include="MessageDecoder.cs" />
     <Compile Include="MoveFinder.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Types\Move.cs" />
     <Compile Include="WinnerDeterminator.cs" />
   </ItemGroup>
   <ItemGroup>
