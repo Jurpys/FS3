@@ -28,7 +28,7 @@ namespace FS3
 
             var winner = Maybe<MarkType>.Bind(winnerFinderTask.Result);
 
-            if (!winner.ToString().Equals("Nothing"))
+            if (!winner.ToString().Equals("Just Nothing"))
             {
                 return GameResult(winner);
             }
@@ -40,7 +40,7 @@ namespace FS3
             var newWinner =
                 Maybe<string>.Bind(newMessage).FMap(MessageDecoder.Execute).FMap(WinnerDeterminator.FindWinner);
 
-            if (!newWinner.ToString().Equals("Nothing"))
+            if (!newWinner.ToString().Equals("Just Nothing"))
             {
                 return GameResult(newWinner);
             }
@@ -54,7 +54,7 @@ namespace FS3
         {
             switch (mark.ToString())
             {
-                case "Nothing":
+                case "Just Nothing":
                     return "Draw";
                 case "Just O":
                     return "You won";
