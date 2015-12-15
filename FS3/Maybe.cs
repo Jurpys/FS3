@@ -58,8 +58,8 @@ namespace FS3
         public override string ToString()
         {
             return isNothing
-                ? "Nothing<" + typeof(TObject).Name + ">"
-                : "Just<" + typeof(TObject).Name + "> " + obj.ToString();
+                ? "Nothing"
+                : "Just " + obj.ToString();
         }
     }
 }
