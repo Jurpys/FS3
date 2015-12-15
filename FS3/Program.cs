@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FS3;
 using FS3;
+using FS3.Enum;
 
 namespace FS3
 {
@@ -12,8 +13,10 @@ namespace FS3
     {
         public static void Main()
         {
-            Console.WriteLine(Game.Play("opa_opa44"));
-            Console.ReadKey();
+            //Console.WriteLine(Game.Play("opa_opa44"));
+            //Console.ReadKey();
+
+            var winner = Maybe<MarkType>.Bind()
         }
     }
 }

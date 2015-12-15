@@ -42,6 +42,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameHttpClient.cs" />
     <Compile Include="MarkConverter.cs" />
+    <Compile Include="Maybe.cs" />
     <Compile Include="MessageEncoder.cs" />
     <Compile Include="MessageDecoder.cs" />
     <Compile Include="MoveFinder.cs" />
